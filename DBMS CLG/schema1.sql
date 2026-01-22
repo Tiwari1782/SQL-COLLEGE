@@ -1,0 +1,75 @@
+-- Active: 1767363723104@@127.0.0.1@3306@sakila
+CREATE DATABASE IF NOT EXISTS DBMS_CLG;
+
+USE DBMS_CLG;
+
+CREATE TABLE EMPLOYEES(
+    EMPLOYEE_ID INT PRIMARY KEY,
+    LAST_NAME VARCHAR(25) NOT NULL,
+    EMAIL_ID VARCHAR(50),
+    SALARY BIGINT,
+    COMISSION_PCT INT,
+    HIRE_DATE DATE NOT NULL
+);
+
+INSERT INTO EMPLOYEES 
+(EMPLOYEE_ID, LAST_NAME, EMAIL_ID, SALARY, COMISSION_PCT, HIRE_DATE) 
+VALUES
+(101, 'Sharma', 'sharma101@gmail.com', 45000, 5, '2022-03-15'),
+(102, 'Verma', 'verma102@gmail.com', 52000, 10, '2021-07-10'),
+(103, 'Singh', 'singh103@gmail.com', 60000, 15, '2020-01-20'),
+(104, 'Gupta', 'gupta104@gmail.com', 38000, NULL, '2023-06-05'),
+(105, 'Mehta', 'mehta105@gmail.com', 75000, 20, '2019-11-18'),
+(106, 'Kumar', 'kumar106@gmail.com', 42000, 5, '2022-09-25'),
+(107, 'Agarwal', 'agarwal107@gmail.com', 68000, 12, '2021-04-12'),
+(108, 'Jain', 'jain108@gmail.com', 50000, NULL, '2020-08-30'),
+(109, 'Malhotra', 'malhotra109@gmail.com', 82000, 25, '2018-12-01'),
+(110, 'Bansal', 'bansal110@gmail.com', 47000, 7, '2022-02-14'),
+
+(111, 'Chopra', 'chopra111@gmail.com', 56000, 10, '2021-05-19'),
+(112, 'Khanna', 'khanna112@gmail.com', 91000, 30, '2017-03-27'),
+(113, 'Reddy', 'reddy113@gmail.com', 49000, NULL, '2023-01-08'),
+(114, 'Iyer', 'iyer114@gmail.com', 65000, 15, '2020-10-21'),
+(115, 'Nair', 'nair115@gmail.com', 53000, 8, '2022-11-11'),
+(116, 'Patel', 'patel116@gmail.com', 72000, 18, '2019-06-16'),
+(117, 'Desai', 'desai117@gmail.com', 46000, 5, '2023-04-03'),
+(118, 'Joshi', 'joshi118@gmail.com', 58000, 10, '2021-09-09'),
+(119, 'Kapoor', 'kapoor119@gmail.com', 88000, 28, '2018-07-22'),
+(120, 'Saxena', 'saxena120@gmail.com', 51000, NULL, '2022-12-28');
+
+SELECT * FROM DBMS_CLG.EMPLOYEES;
+
+ALTER TABLE DBMS_CLG.EMPLOYEES ADD COLUMN FIELD VARCHAR(30);
+
+UPDATE DBMS_CLG.EMPLOYEES
+SET `FIELD` = ELT(
+    FLOOR(1 + RAND() * 5),
+    'IT',
+    'HR',
+    'Finance',
+    'Marketing',
+    'Operations'
+);
+
+SELECT `LAST_NAME`, SALARY * 12 AS `ANNUAL SALARY`  --ALIAS USE 
+FROM DBMS_CLG.EMPLOYEES;
+
+ALTER TABLE DBMS_CLG.EMPLOYEES
+CHANGE COLUMN `FIELD` JOB_FIELD VARCHAR(10);
+
+SELECT EMPLOYEE_ID, LAST_NAME, EMAIL_ID, JOB_FIELD 
+FROM DBMS_CLG.EMPLOYEES
+WHERE EMPLOYEE_ID = 120;
+
+UPDATE DBMS_CLG.EMPLOYEES 
+SET `JOB_FIELD` = "MARKETING" WHERE `JOB_FIELD` = "Operations";
+
+SELECT SALARY
+FROM DBMS_CLG.EMPLOYEES
+WHERE `JOB_FIELD` LIKE 'Operations';
+
+SELECT * FROM DBMS_CLG.EMPLOYEES ORDER BY `SALARY` DESC LIMIT 100;
+SELECT * FROM DBMS_CLG.EMPLOYEES ORDER BY `HIRE_DATE` ASC LIMIT 100;
+
+ALTER TABLE DBMS_CLG.EMPLOYEES 
+DROP COLUMN `COMISSION_PCT`;
